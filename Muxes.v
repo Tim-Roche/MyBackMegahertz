@@ -68,10 +68,11 @@ module Mux32to1Nbit(F, S, I00, I01, I02, I03, I04, I05, I06, I07, I08, I09,
 endmodule
 
 // this is here only to make into a block
-module mux2to1_64bit(F, S, I0, I1);
-	input [63:0] I0, I1;
+module mux2to1_Nbit(F, S, I0, I1);
+	parameter N = 64;
+	input [N-1:0] I0, I1;
 	input S;
-	output [63:0] F;
+	output [N-1:0] F;
 	
 	assign F = S ? I1 : I0;
 endmodule

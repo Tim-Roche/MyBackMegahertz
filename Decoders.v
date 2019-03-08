@@ -36,3 +36,21 @@ module Decoder5to32(m, S, en);
 	assign m[30]=  S[4]& S[3]& S[2]& S[1]&~S[0]&en;
 	assign m[31]=  S[4]& S[3]& S[2]& S[1]& S[0]&en;
 endmodule
+
+module Decoder1to2(m,S,en);
+	input S; // select
+	input en; // enable (positive logic)
+	output [1:0]m; // 32 minterms
+	assign m[0] = ~S&en;
+	assign m[1] = S&en;
+endmodule
+
+module Decoder2to4(m,S,en);
+	input [1:0] S; // select
+	input en; // enable (positive logic)
+	output [3:0]m; // 32 minterms
+	assign m[0] = ~S[1]&~S[0]&en ;
+	assign m[1] = ~S[1]& S[0]&en ;
+	assign m[2] =  S[1]&~S[0]&en ;
+	assign m[3] =  S[1]& S[0]&en ;
+endmodule
