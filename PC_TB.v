@@ -1,10 +1,10 @@
 module PC_TB();
-	reg [63:0]in = 64'b1010;
+	reg [31:0]in = 64'b1010;
 	reg [1:0]PS; // Program counter function Select bits
 	reg clock = 1'b0;
 	reg reset = 1'b0;
-	wire [63:0]PC;
-	wire [63:0]PC4;
+	wire [31:0]PC;
+	wire [31:0]PC4;
 	
 		// PS
 	// 00 - PC <= PC
