@@ -107,8 +107,10 @@ initial begin
 	PC_FS = 2'b01;
 	#10
 	PC_FS = 2'b11;
-	#20 $stop;
-	
+	#30;
+	reset = 1'b1;
+	#10;
+	reset = 1'b0;
 	#100 $stop;
 end
 

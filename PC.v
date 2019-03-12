@@ -20,4 +20,5 @@ module programCounter(PC, PC4, in, PS, clock, reset);
 	defparam PC_Mux.N = 32;
 	RegisterNbit PC_Reg (PC, PC_in, load_PC, reset, clock);
 	defparam PC_Reg.N = 32;
+	defparam PC_Reg.resetValue = 0;
 endmodule
