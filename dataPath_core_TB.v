@@ -111,7 +111,7 @@ initial begin
 	reset = 1'b1;
 	#10;
 	reset = 1'b0;
-	#100 $stop;
+	#10 $stop;
 end
 
 endmodule

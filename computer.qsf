@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone III"
 set_global_assignment -name DEVICE EP3C16F484C6
-set_global_assignment -name TOP_LEVEL_ENTITY dataPath_core
+set_global_assignment -name TOP_LEVEL_ENTITY dataPath_core_TB
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "20:33:40  JANUARY 27, 2019"
 set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
@@ -361,9 +361,6 @@ set_global_assignment -name VERILOG_FILE PC_TB.v
 set_global_assignment -name EDA_TEST_BENCH_NAME PC_TB -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id PC_TB
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME PC_TB -section_id PC_TB
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name EDA_TEST_BENCH_NAME dataPath_core_TB -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id dataPath_core_TB
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME dataPath_core_TB -section_id dataPath_core_TB
@@ -376,4 +373,7 @@ set_global_assignment -name EDA_TEST_BENCH_FILE RAM_64bit_testbench.v -section_i
 set_global_assignment -name EDA_TEST_BENCH_FILE dataPath_V2_TB.v -section_id dataPath_V2_TB
 set_global_assignment -name EDA_TEST_BENCH_FILE PC_TB.v -section_id PC_TB
 set_global_assignment -name EDA_TEST_BENCH_FILE dataPath_core_TB.v -section_id dataPath_core_TB
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
