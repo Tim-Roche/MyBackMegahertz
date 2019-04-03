@@ -52,7 +52,7 @@ wire [31:0] PC4;
 	  	          //A,              B, SA, SB,        D, DA,     W, reset, clock, r0, r1, r2, r3, r4, r5, r6, r7
 RegisterFile32x64 regFile(regOut_A, regOut_B, SA, SB, data_bus, DA, w_reg, reset, clock, r0, r1, r2, r3, r4, r5, r6, r7);
 					  
-					  //PC, PC4, in, PS, clock, reset
+					     //PC, PC4, in, PS, clock, reset
 programCounter pc1 (PC_out, PC4, PC_in, PC_FS, clock, reset);
 										  
 										    //Q, D, L, R, clock
@@ -78,7 +78,7 @@ RAM_64bit ram(clock, addressLine, data_bus, mem_cs, mem_write_en, mem_read, size
 
 triState ts1 (data_bus, alu_out, EN_ALU);
 triState ts2 (data_bus, regOut_B, EN_B);
-triState ts3 (data_bus, {32'b0,PC_out}, EN_PC);
+triState ts3 (data_bus, {32'b0,PC4}, EN_PC);
 triState ts4 (addressLine, PC_out, EN_ADDR_PC);
 defparam ts4.N = 32;
 triState ts5 (addressLine, alu_out[31:0], EN_ADDR_ALU);
