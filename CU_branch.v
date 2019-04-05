@@ -27,20 +27,20 @@ wire [2:0] k_mux  = 2'b00;
 
 wire CBZ;
 wire BL;
-wire STATE0 = (state == 3'b000);
-wire STATE1 = (state == 3'b001);
+wire EX0 = (state == 3'b001) ? 1'b1 : 1'b0;
+wire EX1 = (state == 3'b010) ? 1'b1 : 1'b0;
 wire status_zero;
 
-wire PC_HOLD = STATE0&CBZ;
-wire PC_PLUS4 = STATE1&CBZ&~status_zero;
-wire PC_JUMP = STATE1&CBZ&status_zero;
+wire PC_HOLD = EX0&CBZ;
+wire PC_PLUS4 = EX1&CBZ&~status_zero;
+wire PC_JUMP = EX1&CBZ&status_zero;
 wire PC_IN = 1'b0;
 
-wire status_load  = (CBZ&STATE0);
+wire status_load  = (CBZ&EX0);
 assign PC = PC_HOLD  ? 2'b00 : 
 				PC_PLUS4 ? 2'b01 :
 				PC_IN    ? 2'b10 : 2'b11;
-assign NS = ((CBZ|BL)&STATE0) ? 3'b001 : 3'b000;
-assign SA = (CBZ&STATE0) ? 5'd31 : SA_in;
+assign NS = ((CBZ|BL)&EX0) ? 3'b001 : 3'b000;
+assign SA = (CBZ&EX0) ? 5'd31 : SA_in;
 
 endmodule
