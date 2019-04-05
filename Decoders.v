@@ -54,3 +54,17 @@ module Decoder2to4(m,S,en);
 	assign m[2] =  S[1]&~S[0]&en ;
 	assign m[3] =  S[1]& S[0]&en ;
 endmodule
+
+module Decoder3to8(m,S,en);
+	input [2:0] S; // select
+	input en; // enable (positive logic)
+	output [7:0]m; // 32 minterms
+	assign m[0] = ~S[2]&~S[1]&~S[0]&en ;
+	assign m[1] = ~S[2]&~S[1]& S[0]&en ;
+	assign m[2] = ~S[2]& S[1]&~S[0]&en ;
+	assign m[3] = ~S[2]& S[1]& S[0]&en ;
+	assign m[4] =  S[2]&~S[1]&~S[0]&en ;
+	assign m[5] =  S[2]&~S[1]& S[0]&en ;
+	assign m[6] =  S[2]& S[1]&~S[0]&en ;
+	assign m[7] =  S[2]& S[1]& S[0]&en ;
+endmodule

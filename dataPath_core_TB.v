@@ -18,7 +18,7 @@ reg [1:0] data_tri_sel = 2'b00;
 reg [1:0] PC_FS = 2'b00;
 reg B_Sel = 1'b0;
 reg PC_sel = 1'b0;
-
+reg regAIn = 1'b0;
 wire [15:0] r0, r1, r2, r3, r4, r5, r6, r7; 
 wire [31:0] IR_out;
 wire [3:0] status;

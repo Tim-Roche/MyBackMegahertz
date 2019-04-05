@@ -49,8 +49,14 @@ wire [31:0] PC_out;
 wire [31:0] PC_in;
 wire [31:0] PC4;
 
-	  	             //A,             B,         SA, SB,        D, DA,     W, reset, clock, r0, r1, r2, r3, r4, r5, r6, r7
-RegisterFile32x64 regFile(regOut_A, regOut_B, SA, SB, data_bus, DA, w_reg, reset, clock, r0, r1, r2, r3, r4, r5, r6, r7);
+wire [1:0] regAMux; 
+wire [4:0] regAIn;
+
+Mux4to1Nbit constantGenerator (k, S, I0, I1, I2, I3);
+constantGenerator.N = 32;
+
+	  	          //A,              B, SA, SB,        D, DA,     W, reset, clock, r0, r1, r2, r3, r4, r5, r6, r7
+RegisterFile32x64 regFile(regOut_A, regOut_B, SB, data_bus, DA, w_reg, reset, clock, r0, r1, r2, r3, r4, r5, r6, r7);
 					  
 					     //PC, PC4, in, PS, clock, reset
 programCounter pc1 (PC_out, PC4, PC_in, PC_FS, clock, reset);

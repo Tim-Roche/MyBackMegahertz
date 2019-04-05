@@ -1,27 +1,32 @@
-module ROM(out, address);
-	output reg [15:0] out;
-	input [3:0] address;
+module ROM(address, data, chip_select, output_enable); 
+	input [31:0] address; 
+	input chip_select;
+	input output_enable;
+	output [63:0] data;
+
+	triState romOut (data, out, (output_enable&chip_select));
+	reg [63:0] out;
 	
 	always@(address)
 	begin
 		case(address)
-			8'h0: out = 16'h0000;
-			8'h1: out = 16'h1111;
-			8'h2: out = 16'h2222;
-			8'h3: out = 16'h3333;
-			8'h4: out = 16'h4444;
-			8'h5: out = 16'h5555;
-			8'h6: out = 16'h6666;
-			8'h7: out = 16'h7777;
-			8'h8: out = 16'h8888;
-			8'h9: out = 16'h9999;
-			8'hA: out = 16'hAAAA;
-			8'hB: out = 16'hBBBB;
-			8'hC: out = 16'hCCCC;
-			8'hD: out = 16'hFFFF;
-			8'hE: out = 16'h1234;
-			8'hF: out = 16'hABCD;
-			default: out = 16'h0000;
+			32'h0: out = 64'h0000;
+			32'h1: out = 64'h1111;
+			32'h2: out = 64'h2222;
+			32'h3: out = 64'h3333;
+			32'h4: out = 64'h4444;
+			32'h5: out = 64'h5555;
+			32'h6: out = 64'h6666;
+			32'h7: out = 64'h7777;
+			32'h8: out = 64'h8888;
+			32'h9: out = 64'h9999;
+			32'hA: out = 64'hAAAA;
+			32'hB: out = 64'hBBBB;
+			32'hC: out = 64'hCCCC;
+			32'hD: out = 64'hFFFF;
+			32'hE: out = 64'h1234;
+			32'hF: out = 64'hABCD;
+			default: out = 64'h0000;
 		endcase
 	end
 endmodule
