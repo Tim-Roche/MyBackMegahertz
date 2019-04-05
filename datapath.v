@@ -4,7 +4,7 @@ input reset;
 input [35:0] controlWord;
 input [31:0] k;
 
-output wire [63:0] data_bus;
+inout wire [63:0] data_bus;
 output wire [31:0] addressLine;
 
 output wire [31:0] IR_out;
