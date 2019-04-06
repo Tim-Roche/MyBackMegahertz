@@ -1,7 +1,7 @@
 module controlUnit(clock, reset, IR, status, controlWord, k);
 parameter CUL = 36;
 input clock;
-input status;
+input [3:0] status;
 input reset;
 input [31:0] IR;
 output [CUL:0] controlWord;
@@ -12,6 +12,7 @@ wire [2:0] k_sel;
 
 wire [2:0] k_sel_iFh;
 wire [2:0] k_sel_CW;
+wire [2:0] k_sel_b;
 
 wire iFetch = ~state[3]&~state[2] & ~state[1] & ~state[0];
 wire DP_imm_sel = (IR[28] & ~IR[27] & ~IR[26])&~iFetch;
@@ -21,15 +22,19 @@ wire DP_reg_sel = (IR[27] &  IR[25] & ~IR[26])&~iFetch;
 
 wire [3:0] NS_reg;
 wire [3:0] NS_iFh;
+wire [3:0] NS_b;
 wire [CUL:0] reg_CW;
 wire [CUL:0] iFetch_CW;
+wire [CUL:0] bch_CW;
 
 CU_iFetch iUnit(IR, state, status,  NS_iFh, k_sel_iFh, iFetch_CW);
 CU_reg regUnit (IR, state, status,  NS_reg, k_sel_CW, reg_CW);
+CU_branch bchUnit (IR, state, status, NS_b, k_sel_b, bch_CW);
 
 assign {NS,controlWord,k_sel} = (iFetch) ?  {NS_iFh, iFetch_CW, k_sel_iFh} :
-								  (DP_reg_sel)   ?  {NS_reg, reg_CW, k_sel_CW}  :
-								  50'd0; 
+								  (DP_reg_sel)   ?  {NS_reg, reg_CW, k_sel_CW}     :
+								  (branch_sel)   ?  {NS_b, bch_CW, k_sel_b}        :
+								   50'd0; 
 				 
 				 
 Mux8to1Nbit constantGenerator (k, k_sel, {26'b0,IR[15:10]}, {20'b0,IR[21:10]}, {23'b0,IR[20:12]}, {6'b0,IR[25:0]}, {13'b0,IR[23:5]}, {16'b0,IR[20:5]}, 32'b0, 32'b0);
