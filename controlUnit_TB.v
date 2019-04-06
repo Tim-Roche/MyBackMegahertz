@@ -30,7 +30,7 @@ wire [CUL:0] iCW = cu.iFetch_CW;
 wire [3:0] iNS  = cu.NS_iFh;
 
 wire iFetch = cu.iFetch;
-wire DP_imm_sel = cu.DP_imm_sel;
+wire DP_imm_sel = cu.DP_imm_sel;k
 wire branch_sel = cu.branch_sel;
 wire loadSr_sel = cu.loadSr_sel;
 wire DP_reg_sel = cu.DP_reg_sel;
@@ -40,7 +40,7 @@ always begin
 end
 
 initial begin 
-	IR = {11'b10001011000,5'd1,6'd0,5'd0,5'd2}; //ADD X2 X0 X1
+	IR = {11'b10101010000,5'd1,6'd0,5'd0,5'd2}; //ADD X2 X0 X1
 	#100 $stop;
 end
 

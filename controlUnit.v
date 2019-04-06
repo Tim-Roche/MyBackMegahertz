@@ -24,15 +24,15 @@ wire [3:0] NS_iFh;
 wire [CUL:0] reg_CW;
 wire [CUL:0] iFetch_CW;
 
-CU_iFetch iUnit(IR, state, status, NS_iFh, k_sel_iFh, iFetch_CW);
-CU_reg regUnit (IR, state, status, NS_reg, k_sel_CW, reg_CW);
+CU_iFetch iUnit(IR, state, status,  NS_iFh, k_sel_iFh, iFetch_CW);
+CU_reg regUnit (IR, state, status,  NS_reg, k_sel_CW, reg_CW);
 
 assign {NS,controlWord,k_sel} = (iFetch) ?  {NS_iFh, iFetch_CW, k_sel_iFh} :
 								  (DP_reg_sel)   ?  {NS_reg, reg_CW, k_sel_CW}  :
 								  50'd0; 
 				 
 				 
-Mux8to1Nbit constantGenerator (k, k_sel, 32'd0, IR[21:10], IR[19:11], IR[31:6], IR[26:8], IR[26:11], 32'b0, 32'b0);
+Mux8to1Nbit constantGenerator (k, k_sel, {26'b0,IR[15:10]}, {20'b0,IR[21:10]}, {23'b0,IR[20:12]}, {6'b0,IR[25:0]}, {13'b0,IR[23:5]}, {16'b0,IR[20:5]}, 32'b0, 32'b0);
 defparam constantGenerator.N = 32;
 
 always @(posedge clock) begin
