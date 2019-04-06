@@ -55,7 +55,7 @@ always begin
 end
 
 initial begin 
-	IR = {8'b10110101,24'b10}; 
+	IR = {11'b11010110000,21'b10}; 
 	#200 $stop;
 end
 

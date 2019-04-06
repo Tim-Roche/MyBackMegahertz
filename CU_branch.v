@@ -34,21 +34,27 @@ wire [4:0] DA           = 5'd28; //RL
 wire w_reg              = EX0&BL;
 wire C0                 = 1'b0;
 wire [1:0] mem_cs       = 2'b00;
-wire B_Sel              = 1'b0;
+wire B_Sel              = ~(CB&EX0);
 wire mem_write_en       = 1'b0;
 wire IR_load            = 1'b0;
 wire status_load        = CB&EX0;
 wire [1:0] size         = 2'b00;
 wire add_tri_sel        = 1'b0;
 wire [1:0] data_tri_sel = 2'b10;
-wire PC_sel             = 1'b0;
-wire [2:0] k_mux        = 3'b000;
+wire PC_sel             = ~BR;
+
+
+wire [2:0] k_mux;
+
+assign k_mux = (CB|bcond) ? 3'b011 :
+					(B|BL)     ? 3'b010 :
+					(BR)       ? 3'b000 : 3'b000;
 
 wire [1:0] PC_FS;
 wire PC_HOLD = EX0&~BR;
 wire PC_PLUS4 = (EX1&CBZ&~Z) | (EX1&CBNZ&Z);
 wire PC_JUMP = (EX1&CBZ&Z) | (EX1&CBNZ&~Z) | (BL&EX1);
-wire PC_IN = BR;
+wire PC_IN = BR | EX1&B;
 
 assign PC_FS = PC_HOLD  ? 2'b00 : 
 				PC_PLUS4 ? 2'b01 :
