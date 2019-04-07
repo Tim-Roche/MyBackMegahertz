@@ -9,10 +9,12 @@ output wire [31:0] k;
 reg  [3:0] state = 4'b0000;
 wire [3:0] NS;
 wire [2:0] k_sel;
+wire [5:0] shamt;
 
 wire [2:0] k_sel_iFh;
-wire [2:0] k_sel_CW;
+wire [2:0] k_sel_reg;
 wire [2:0] k_sel_b;
+wire [2:0] k_sel_imm;
 
 wire iFetch = ~state[3]&~state[2] & ~state[1] & ~state[0];
 wire DP_imm_sel = (IR[28] & ~IR[27] & ~IR[26])&~iFetch;
@@ -23,21 +25,27 @@ wire DP_reg_sel = (IR[27] &  IR[25] & ~IR[26])&~iFetch;
 wire [3:0] NS_reg;
 wire [3:0] NS_iFh;
 wire [3:0] NS_b;
+wire [3:0] NS_imm;
 wire [CUL:0] reg_CW;
 wire [CUL:0] iFetch_CW;
 wire [CUL:0] bch_CW;
+wire [CUL:0] imm_CW;
 
-CU_iFetch iUnit(IR, state, status,  NS_iFh, k_sel_iFh, iFetch_CW);
-CU_reg regUnit (IR, state, status,  NS_reg, k_sel_CW, reg_CW);
+
+
+CU_iFetch iUnit   (IR, state, status,  NS_iFh, k_sel_iFh, iFetch_CW);
+CU_reg regUnit    (IR, state, status,  NS_reg, k_sel_reg, reg_CW);
 CU_branch bchUnit (IR, state, status, NS_b, k_sel_b, bch_CW);
+CU_imm    immUnit (IR, state, status, NS_imm, k_sel_imm, imm_CW, shamt);
 
 assign {NS,controlWord,k_sel} = (iFetch) ?  {NS_iFh, iFetch_CW, k_sel_iFh} :
-								  (DP_reg_sel)   ?  {NS_reg, reg_CW, k_sel_CW}     :
+								  (DP_reg_sel)   ?  {NS_reg, reg_CW, k_sel_reg}    :
 								  (branch_sel)   ?  {NS_b, bch_CW, k_sel_b}        :
+								  (DP_imm_sel)   ?  {NS_imm, imm_CW, k_sel_imm}    :
 								   50'd0; 
 				 
-				 
-Mux8to1Nbit constantGenerator (k, k_sel, {26'b0,IR[15:10]}, {20'b0,IR[21:10]}, {23'b0,IR[20:12]}, {6'b0,IR[25:0]}, {13'b0,IR[23:5]}, {16'b0,IR[20:5]}, 32'b0, 32'b0);
+				                             //000            ,  001             ,            010 ,              011,            100,             101,     110,               111
+Mux8to1Nbit constantGenerator (k, k_sel, {20'b0,IR[21:10]}, {23'b0,IR[20:12]}, {6'b0,IR[25:0]}, {13'b0,IR[23:5]}, {16'b0,IR[20:5]}, {16'b0, 16'hFFFF}, {26'b0, shamt}, 32'b0);
 defparam constantGenerator.N = 32;
 
 always @(posedge clock) begin

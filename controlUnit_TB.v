@@ -22,7 +22,7 @@ wire ORR = cu.regUnit.ORR;
 wire EOR = cu.regUnit.EOR;
 wire ANDS = cu.regUnit.ANDS;
 wire [2:0] trimOp = cu.regUnit.trimOp;
-*/
+
 
 wire UNUSED7 = cu.bchUnit.UNUSED7;
 wire BR = cu.bchUnit.BR;
@@ -38,6 +38,37 @@ wire PC_HOLD = cu.bchUnit.PC_HOLD;
 wire PC_PLUS4 = cu.bchUnit.PC_PLUS4;
 wire PC_JUMP = cu.bchUnit.PC_JUMP;
 wire PC_IN = cu.bchUnit.PC_IN;
+*/
+
+wire [4:0] FS = cu.immUnit.FS;
+
+wire top_zero = cu.immUnit.top_zero;
+wire top_one = cu.immUnit.top_one;
+wire top_two = cu.immUnit.top_two;
+wire top_three = cu.immUnit.top_three;
+wire [1:0] trimOp = cu.immUnit.trimOp;
+wire LOGIC = cu.immUnit.LOGIC;
+wire SHIFT = cu.immUnit.SHIFT;
+wire MATHI = cu.immUnit.MATHI;
+wire MOV   = cu.immUnit.MOV;
+wire ANDI  = cu.immUnit.ANDI;
+wire ORRI  = cu.immUnit.ORRI;
+wire EORI  = cu.immUnit.EORI;
+wire ANDIS = cu.immUnit.ANDIS;
+wire ADDI  = cu.immUnit.ADDI;
+wire SUBI  = cu.immUnit.SUBI;
+wire ADDIS = cu.immUnit.ADDIS;
+wire SUBIS = cu.immUnit.SUBIS;
+wire MOVZ  = cu.immUnit.MOVZ;
+wire MOVK  = cu.immUnit.MOVK;
+
+wire LSR   = cu.immUnit.LSR;
+wire LSL   = cu.immUnit.LSL;
+
+wire EX0 = cu.immUnit.EX0;
+wire EX1 = cu.immUnit.EX1;
+
+wire [2:0] k_mux = cu.immUnit.k_mux;
 
 controlUnit cu (clock, reset, IR, status, controlWord, k);
 
@@ -55,7 +86,7 @@ always begin
 end
 
 initial begin 
-	IR = {11'b11010110000,21'b10}; 
+	IR = {11'b11010011010,5'd31, 6'd2, 5'd31, 5'd0}; 
 	#200 $stop;
 end
 

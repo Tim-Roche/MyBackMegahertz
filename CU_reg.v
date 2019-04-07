@@ -24,7 +24,7 @@ Decoder3to8 opToSignal ({SUBS, ANDS, SUB, EOR, ADDS, ORR, ADD, AND},trimOp, 1'b1
 
 assign FS = (ADD|ADDS) ? 5'b01000 : 
 				(SUB|SUBS) ? 5'b01001 :
-				(AND|ANDS) ? 5'b01000 :
+				(AND|ANDS) ? 5'b00000 :
 				(ORR)      ? 5'b00100 : 5'b01100;
 
 wire [3:0] NS           = 4'b0000; //All single state instructions
