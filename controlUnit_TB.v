@@ -2,8 +2,8 @@ module controlUnit_TB();
 parameter CUL = 36;
 reg clock = 1'b0;
 reg reset = 1'b0;
-
-reg [3:0] status = 4'b0000;
+// 				       VCNZ
+reg [3:0] status = 4'b1000;
 reg [31:0] IR;
 wire [CUL:0] controlWord;
 wire [31:0] k;
@@ -38,7 +38,7 @@ wire PC_HOLD = cu.bchUnit.PC_HOLD;
 wire PC_PLUS4 = cu.bchUnit.PC_PLUS4;
 wire PC_JUMP = cu.bchUnit.PC_JUMP;
 wire PC_IN = cu.bchUnit.PC_IN;
-*/
+
 
 wire [4:0] FS = cu.immUnit.FS;
 
@@ -68,8 +68,23 @@ wire LSL   = cu.immUnit.LSL;
 wire EX0 = cu.immUnit.EX0;
 wire EX1 = cu.immUnit.EX1;
 
-wire [2:0] k_mux = cu.immUnit.k_mux;
 
+wire STUR = cu.lsUnit.STUR;
+wire LDUR = cu.lsUnit.LDUR;
+wire STURB = cu.lsUnit.STURB;
+wire LDURB = cu.lsUnit.LDURB;
+wire [2:0] k_mux = cu.immUnit.k_mux;
+*/
+
+wire PC_HOLD = cu.bchUnit.PC_HOLD;
+wire PC_PLUS4 = cu.bchUnit.PC_PLUS4;
+wire PC_JUMP = cu.bchUnit.PC_JUMP;
+wire PC_IN = cu.bchUnit.PC_IN;
+
+
+wire bcond = cu.bchUnit.bcond;
+wire bcondOut = cu.bchUnit.bcondOut;
+wire [3:0] s_B = cu.bchUnit.SB[3:0];
 controlUnit cu (clock, reset, IR, status, controlWord, k);
 
 wire [CUL:0] iCW = cu.iFetch_CW;
@@ -86,7 +101,7 @@ always begin
 end
 
 initial begin 
-	IR = {11'b11010011010,5'd31, 6'd2, 5'd31, 5'd0}; 
+	IR = {8'b01010100,19'd0, 5'b1100}; 
 	#200 $stop;
 end
 

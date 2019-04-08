@@ -16,6 +16,37 @@ module Mux8to1Nbit(F, S, I0, I1, I2, I3, I4, I5, I6, I7);
 	assign F = S[2] ? (S[1] ? (S[0] ? I7 : I6) : (S[0] ? I5 : I4)) : (S[1] ? (S[0] ? I3 : I2) : (S[0] ? I1 : I0));
 endmodule
 
+module Mux16to1Nbit(F, S, I00, I01, I02, I03, I04, I05, I06, I07, I08, I09,
+								  I10, I11, I12, I13, I14, I15);
+
+	parameter N = 8;
+	output reg [N-1:0]F; // output
+	input [3:0]S; // select
+	input [N-1:0]I00, I01, I02, I03, I04, I05, I06, I07, I08, I09;
+	input [N-1:0]I10, I11, I12, I13, I14, I15;
+	
+	always @(*) begin
+		case(S)
+			4'h0: F <= I00;
+			4'h1: F <= I01;
+			4'h2: F <= I02;
+			4'h3: F <= I03;
+			4'h4: F <= I04;
+			4'h5: F <= I05;
+			4'h6: F <= I06;
+			4'h7: F <= I07;
+			4'h8: F <= I08;
+			4'h9: F <= I09;
+			4'hA: F <= I10;
+			4'hB: F <= I11;
+			4'hC: F <= I12;
+			4'hD: F <= I13;
+			4'hE: F <= I14;
+			4'hF: F <= I15;
+		endcase
+	end
+endmodule
+
 module Mux32to1Nbit(F, S, I00, I01, I02, I03, I04, I05, I06, I07, I08, I09,
 								  I10, I11, I12, I13, I14, I15, I16, I17, I18, I19,
 								  I20, I21, I22, I23, I24, I25, I26, I27, I28, I29,

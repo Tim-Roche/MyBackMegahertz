@@ -44,6 +44,25 @@ wire [1:0] data_tri_sel = 2'b10;
 wire PC_sel             = ~BR;
 
 
+wire b_equal = Z;
+wire b_notEqual = ~Z;
+wire b_geqUNS = C;
+wire b_lessUNS = ~C;
+wire b_neg = N;
+wire b_pos = ~N;
+wire b_signOV = V;
+wire b_noOV = ~V;
+wire b_greaterUNS = C&~Z;
+wire b_leqUNS = (~C)|Z;
+wire b_geq = ~(N^V);
+wire b_less = N^V;
+wire b_greater = ~Z & ~(N^V);
+wire b_leq = Z | (N^V);
+
+wire bcondOut;
+Mux16to1Nbit bcondMux (bcondOut, SB[3:0], b_equal, b_notEqual, b_geqUNS, b_lessUNS, b_neg, b_pos, b_signOV, b_noOV, b_greaterUNS, b_leqUNS, b_geq, b_less, b_greater, b_leq, 1'b0, 1'b0);
+defparam bcondMux.N = 1;
+
 wire [2:0] k_mux;
 
 assign k_mux = (CB|bcond) ? 3'b011 :
@@ -52,13 +71,13 @@ assign k_mux = (CB|bcond) ? 3'b011 :
 
 wire [1:0] PC_FS;
 wire PC_HOLD = EX0&~BR;
-wire PC_PLUS4 = (EX1&CBZ&~Z) | (EX1&CBNZ&Z);
-wire PC_JUMP = (EX1&CBZ&Z) | (EX1&CBNZ&~Z) | (BL&EX1);
+wire PC_PLUS4 = (EX1&CBZ&~Z) | (EX1&CBNZ&Z) | (EX1&bcond&~bcondOut);
+wire PC_JUMP = (EX1&CBZ&Z) | (EX1&CBNZ&~Z) | (BL&EX1) | (EX1&bcond&bcondOut);
 wire PC_IN = BR | EX1&B;
 
 assign PC_FS = PC_HOLD  ? 2'b00 : 
-				PC_PLUS4 ? 2'b01 :
-				PC_IN    ? 2'b10 : 2'b11;
+				   PC_PLUS4 ? 2'b01 :
+				   PC_IN    ? 2'b10 : 2'b11;
 
 wire [CUL:0] controlWord = {FS, SA, SB, DA, w_reg, C0, mem_cs, B_Sel, mem_write_en, IR_load, status_load, size, add_tri_sel, data_tri_sel, PC_sel, PC_FS};
 

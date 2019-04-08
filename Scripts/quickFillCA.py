@@ -9,7 +9,7 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
-names = ["Reg_write", "ram_write_enable", "ram_read_enable", "B_sel", "EN_B", "EN_ALU", "EN_ADDR_ALU", "Uses Constant"]
+names = ["w_reg", "C0", "mem_cs", "B_sel", "mem_write_en", "IR_load", "status_load", "size", "add_tri_sel", "data_tri_sel","PC_sel"]
 opDict = {}
 
 def concatIntoString(l, start, end, unknowns):
