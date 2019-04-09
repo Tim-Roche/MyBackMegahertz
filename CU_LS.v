@@ -7,30 +7,35 @@ input [31:0] IR;
 output [2:0] k_mux;
 output [3:0] NS;
 output [CUL:0] controlWord;
+
 wire [10:0] opcode = IR[31:21];
 
 wire [4:0] FS;
 
-wire STUR = (opcode == 11'b11111000000) ? 1'b1 : 1'b0;
-wire LDUR = (opcode == 11'b11111000010) ? 1'b1 : 1'b0;
+wire STUR =  (opcode == 11'b11111000000) ? 1'b1 : 1'b0;
+wire LDUR =  (opcode == 11'b11111000010) ? 1'b1 : 1'b0;
 wire STURB = (opcode == 11'b00111000000) ? 1'b1 : 1'b0;
 wire LDURB = (opcode == 11'b00111000010) ? 1'b1 : 1'b0;
+wire STURH = (opcode == 11'b01111000000) ? 1'b1 : 1'b0;
+wire LDURH = (opcode == 11'b01111000010) ? 1'b1 : 1'b0;
 
 assign FS = 5'b01000;
 wire [3:0] NS           = 4'b0000; //All single state instructions
 wire [4:0] SA           = IR[9:5];
 wire [4:0] SB           = IR[4:0];
 wire [4:0] DA           = IR[4:0];
-wire w_reg              = LDUR|LDURB;
+wire w_reg              = LDUR|LDURB|LDURH;
 wire C0                 = 1'b0;
 wire [1:0] mem_cs       = 2'b01;
-wire B_Sel              = ~LDURB;
-wire mem_write_en       = STUR|STURB;
+wire B_Sel              = 1'b1;
+wire mem_write_en       = STUR|STURB|STURH;
 wire IR_load            = 1'b0;
 wire status_load        = 1'b0;
-wire [1:0] size         = (STUR|LDUR) ? 2'b11 : 2'b01;
+wire [1:0] size         = (STUR|LDUR)  ? 2'b11 :
+								  (STURH|LDURH)? 2'b01 : 2'b00;
+								  
 wire add_tri_sel        = 1'b0;
-wire [1:0] data_tri_sel = (LDUR|LDURB) ? 2'b11 :2'b01;
+wire [1:0] data_tri_sel = (LDUR|LDURB|LDURH) ? 2'b11 :2'b01;
 wire PC_sel             = 1'b0;
 wire [1:0] PC_FS        = 2'b01;
 wire [2:0] k_mux        = 3'b001;

@@ -46,9 +46,10 @@ assign {NS,controlWord,k_sel} = (iFetch) ?  {NS_iFh, iFetch_CW, k_sel_iFh} :
 								  (DP_imm_sel)   ?  {NS_imm, imm_CW, k_sel_imm}    :
 								  (loadSr_sel)   ?  {NS_ls, ls_CW, k_sel_ls}       :
 								   50'd0; 
-				 
+wire [31:0] maskedOutput;
+byteMasker32 masker (2'b01, maskedOutput);
 				                             //000            ,  001             ,            010 ,              011,            100,             101,     110,               111
-Mux8to1Nbit constantGenerator (k, k_sel, {{20{IR[21]}},IR[21:10]}, {{23{IR[20]}},IR[20:12]}, {{6{IR[25]}},IR[25:0]}, {{13{IR[23]}},IR[23:5]}, {{{16{IR[20]}}},IR[20:5]}, {16'b0, 16'hFFFF}, {26'b0, shamt}, 32'b0);
+Mux8to1Nbit constantGenerator (k, k_sel, {{20{IR[21]}},IR[21:10]}, {{23{IR[20]}},IR[20:12]}, {{6{IR[25]}},IR[25:0]}, {{13{IR[23]}},IR[23:5]}, {{{16{IR[20]}}},IR[20:5]}, maskedOutput, {26'b0, shamt}, 32'b0);
 defparam constantGenerator.N = 32;
 
 always @(posedge clock) begin

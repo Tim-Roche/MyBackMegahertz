@@ -6,6 +6,7 @@ input [31:0] IR;
 output [2:0] k_mux;
 output [3:0] NS;
 output [5:0] shamt;
+
 output [CUL:0] controlWord;
 
 wire [5:0] shamt = IR[15:10];

@@ -91,6 +91,8 @@ wire STUR = labComp.cu.lsUnit.STUR;
 wire LDUR = labComp.cu.lsUnit.LDUR;
 wire STURB = labComp.cu.lsUnit.STURB;
 wire LDURB = labComp.cu.lsUnit.LDURB;
+wire STURH = labComp.cu.lsUnit.STURH;
+wire LDURH = labComp.cu.lsUnit.LDURH;
 wire ADD = labComp.cu.regUnit.ADD;
 wire BR = labComp.cu.bchUnit.BR;
 wire CB = labComp.cu.bchUnit.CB;
@@ -98,8 +100,6 @@ wire BL = labComp.cu.bchUnit.BL;
 wire bcond = labComp.cu.bchUnit.bcond;
 wire B = labComp.cu.bchUnit.B;
 wire CBZ = labComp.cu.bchUnit.CBZ;
-wire CBNZ = labComp.cu.bchUnit.CBNZ;
-
 always begin 
 	#10 clock = ~clock;
 end
