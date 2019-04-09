@@ -5,7 +5,7 @@ input [3:0] state;
 input [3:0] status; 
 input [31:0] IR;
 output [2:0] k_mux;
-output [2:0] NS;
+output [3:0] NS;
 output [CUL:0] controlWord;
 wire [10:0] opcode = IR[31:21];
 wire [2:0] trimOp = {opcode[9:8], opcode[3]};

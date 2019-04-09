@@ -13,7 +13,7 @@ output [15:0] r0, r1, r2, r3, r4, r5, r6, r7;
 
 wire w_reg;
 wire C0;
-wire mem_cs;
+wire [1:0] mem_cs;
 wire B_Sel;
 wire mem_write_en;
 wire IR_load;
@@ -27,7 +27,7 @@ wire [1:0] data_tri_sel;
 wire PC_sel;
 wire [1:0] PC_FS;
 
-assign {FS, SA, SB, DA, w_reg, C0, mem_cs, B_Sel, mem_w, IR_load, status_load, size, add_tri_sel, data_tri_sel, PC_sel, PC_FS} = controlWord;
+assign {FS, SA, SB, DA, w_reg, C0, mem_cs, B_Sel, mem_write_en, IR_load, status_load, size, add_tri_sel, data_tri_sel, PC_sel, PC_FS} = controlWord;
 
 wire add_dec_en = 1'b1;
 wire data_dec_en = 1'b1;

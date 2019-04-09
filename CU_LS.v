@@ -5,7 +5,7 @@ input [3:0] state;
 input [3:0] status; 
 input [31:0] IR;
 output [2:0] k_mux;
-output [2:0] NS;
+output [3:0] NS;
 output [CUL:0] controlWord;
 wire [10:0] opcode = IR[31:21];
 
@@ -19,10 +19,10 @@ wire LDURB = (opcode == 11'b00111000010) ? 1'b1 : 1'b0;
 assign FS = 5'b01000;
 wire [3:0] NS           = 4'b0000; //All single state instructions
 wire [4:0] SA           = IR[9:5];
-wire [4:0] SB           = IR[20:16];
+wire [4:0] SB           = IR[4:0];
 wire [4:0] DA           = IR[4:0];
 wire w_reg              = LDUR|LDURB;
-wire C0                 = opcode[9];
+wire C0                 = 1'b0;
 wire [1:0] mem_cs       = 2'b01;
 wire B_Sel              = ~LDURB;
 wire mem_write_en       = STUR|STURB;

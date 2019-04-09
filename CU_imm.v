@@ -4,7 +4,7 @@ input [3:0] state;
 input [3:0] status; 
 input [31:0] IR;
 output [2:0] k_mux;
-output [2:0] NS;
+output [3:0] NS;
 output [5:0] shamt;
 output [CUL:0] controlWord;
 
