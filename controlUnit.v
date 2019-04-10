@@ -5,7 +5,7 @@ input [3:0] status;
 input reset;
 input [31:0] IR;
 output [CUL:0] controlWord;
-output wire [31:0] k;
+output wire [63:0] k;
 reg  [3:0] state = 4'b0000;
 wire [3:0] NS;
 wire [2:0] k_sel;
@@ -34,10 +34,12 @@ wire [CUL:0] bch_CW;
 wire [CUL:0] imm_CW;
 wire [CUL:0] ls_CW;
 
+wire [1:0] maskSize;
+
 CU_iFetch   iUnit (IR, state, status,  NS_iFh, k_sel_iFh, iFetch_CW);
 CU_reg    regUnit (IR, state, status,  NS_reg, k_sel_reg, reg_CW);
 CU_branch bchUnit (IR, state, status, NS_b, k_sel_b, bch_CW);
-CU_imm    immUnit (IR, state, status, NS_imm, k_sel_imm, imm_CW, shamt);
+CU_imm    immUnit (IR, state, status, NS_imm, k_sel_imm, imm_CW, shamt, maskSize);
 CU_LS      lsUnit (IR, state, status, NS_ls, k_sel_ls, ls_CW); 
 
 assign {NS,controlWord,k_sel} = (iFetch) ?  {NS_iFh, iFetch_CW, k_sel_iFh} :
@@ -46,11 +48,14 @@ assign {NS,controlWord,k_sel} = (iFetch) ?  {NS_iFh, iFetch_CW, k_sel_iFh} :
 								  (DP_imm_sel)   ?  {NS_imm, imm_CW, k_sel_imm}    :
 								  (loadSr_sel)   ?  {NS_ls, ls_CW, k_sel_ls}       :
 								   50'd0; 
-wire [31:0] maskedOutput;
-byteMasker32 masker (2'b01, maskedOutput);
+wire [63:0] maskedOutput;
+byteMasker64 masker (maskSize, maskedOutput);
+
+wire [63:0] IW_k = {IR[20:5], IR[20:5], IR[20:5], IR[20:5]} & maskedOutput;
+
 				                             //000            ,  001             ,            010 ,              011,            100,             101,     110,               111
-Mux8to1Nbit constantGenerator (k, k_sel, {{20{IR[21]}},IR[21:10]}, {{23{IR[20]}},IR[20:12]}, {{6{IR[25]}},IR[25:0]}, {{13{IR[23]}},IR[23:5]}, {{{16{IR[20]}}},IR[20:5]}, maskedOutput, {26'b0, shamt}, 32'b0);
-defparam constantGenerator.N = 32;
+Mux8to1Nbit constantGenerator (k, k_sel, {{52{IR[21]}},IR[21:10]}, {{55{IR[20]}},IR[20:12]}, {{38{IR[25]}},IR[25:0]}, {{45{IR[23]}},IR[23:5]}, IW_k, maskedOutput, {58'b0, shamt}, 64'b0);
+defparam constantGenerator.N = 64;
 
 always @(posedge clock) begin
 	if(reset) 

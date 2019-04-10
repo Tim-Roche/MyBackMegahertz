@@ -16,17 +16,10 @@ assign out = {byte3, byte2, byte1, byte0};
 
 endmodule
 
-module byteMasker64(megaMaskSize, out);
+module byteMasker64(size, mask);
 
-input [3:0] megaMaskSize;
-output [63:0] out;
-
-wire [31:0] topHalf;
-wire [31:0] botHalf;
-
-byteMasker32 th (megaMaskSize[3:2],topHalf);
-byteMasker32 bh (megaMaskSize[1:0],botHalf);
-
-assign out = {topHalf, botHalf};
+input [1:0] size;
+output [63:0] mask;
+wire [63:0] mask = 63'hFF_FF << 6'd16 * {4'd0, size};
 
 endmodule

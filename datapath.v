@@ -2,7 +2,7 @@ module datapath(clock, reset, controlWord, k, status, IR_out, data_bus, addressL
 input clock;
 input reset;
 input [35:0] controlWord;
-input [31:0] k;
+input [63:0] k;
 
 inout wire [63:0] data_bus;
 output wire [31:0] addressLine;
@@ -18,7 +18,7 @@ wire B_Sel;
 wire mem_write_en;
 wire IR_load;
 wire status_load;
-wire [31:0] k;
+wire [63:0] k;
 wire [4:0] FS;
 wire [1:0] size;
 wire [4:0] SA, SB, DA;
@@ -65,8 +65,8 @@ RegisterNbit instructionRegister (IR_out, data_bus[31:0], IR_load, reset, clock)
 defparam instructionRegister.N = 32;
 
 		            //F, S, I0, I1
-mux2to1_Nbit mux(muxOut, B_Sel, regOut_B, {32'b0,k});
-mux2to1_Nbit mux1(PC_in, PC_sel, regOut_A[31:0], k);
+mux2to1_Nbit mux(muxOut, B_Sel, regOut_B, k);
+mux2to1_Nbit mux1(PC_in, PC_sel, regOut_A[31:0], k[31:0]);
 defparam mux1.N = 32;
 
 Decoder1to2 addDec  (add_tri ,add_tri_sel,add_dec_en);

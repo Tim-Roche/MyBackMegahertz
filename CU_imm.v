@@ -1,4 +1,4 @@
-module CU_imm (IR, state, status, NS, k_mux, controlWord, shamt);
+module CU_imm (IR, state, status, NS, k_mux, controlWord, shamt, maskSize);
 parameter CUL = 35;
 input [3:0] state;
 input [3:0] status; 
@@ -6,6 +6,7 @@ input [31:0] IR;
 output [2:0] k_mux;
 output [3:0] NS;
 output [5:0] shamt;
+output [1:0] maskSize;
 
 output [CUL:0] controlWord;
 
@@ -71,7 +72,7 @@ wire [1:0] PC_FS        = (MOVK&EX0) ? 2'b00 : 2'b01;
 wire [2:0] k_mux = (mode_i) ? 3'b000 :
 						 (mode_r) ? 3'b110 :
 					  (MOV&~(MOVK&EX0)) ? 3'b100 : 3'b101; //different for bit masking
-						 
+wire [1:0] maskSize = IR[22:21]; //For MOVK and MOVZ				 
 
 wire [CUL:0] controlWord = {FS, SA, SB, DA, w_reg, C0, mem_cs, B_Sel, mem_write_en, IR_load, status_load, size, add_tri_sel, data_tri_sel, PC_sel, PC_FS};
 

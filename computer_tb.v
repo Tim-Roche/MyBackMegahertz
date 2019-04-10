@@ -6,6 +6,13 @@ parameter CUL = 35;
 
 computer labComp (clock,reset);
 
+wire [63:0] reg0_FULL = labComp.dp.regFile.R00;
+wire [1:0] maskSize = labComp.cu.maskSize;
+wire [63:0] k = labComp.cu.k;
+wire [63:0] maskedOutput = labComp.cu.maskedOutput;
+wire [63:0] IW_k = labComp.cu.IW_k;
+
+
 wire [63:0] ALU_A = labComp.dp.regOut_A;
 wire [63:0] ALU_B = labComp.dp.muxOut;
 wire [63:0] ALU_output = labComp.dp.alu_out;
@@ -53,9 +60,6 @@ wire [1:0] PC_FS;
 wire [4:0] FS;
 
 assign {FS, SA, SB, DA, w_reg, C0, mem_cs, B_Sel, mem_write_en, IR_load, status_load, size, add_tri_sel, data_tri_sel, PC_sel, PC_FS} = controlWord;
-
-
-wire [31:0] k = labComp.k;
 
 
 wire [15:0] r0 = labComp.r0;

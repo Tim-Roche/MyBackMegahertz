@@ -28,7 +28,7 @@ wire mem_read = (data_tri_sel == 2'b11) ? 1'b1 : 1'b0;
 
 assign {FS, SA, SB, DA, w_reg, C0, mem_cs, B_Sel, mem_write_en, IR_load, status_load, size, add_tri_sel, data_tri_sel, PC_sel, PC_FS} = controlWord;
 
-wire [31:0] k;
+wire [63:0] k;
 wire [31:0] IR;
 wire [3:0] status;
 wire [15:0] r0, r1, r2, r3, r4, r5, r6, r7; 
