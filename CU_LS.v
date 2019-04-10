@@ -19,23 +19,30 @@ wire LDURB = (opcode == 11'b00111000010) ? 1'b1 : 1'b0;
 wire STURH = (opcode == 11'b01111000000) ? 1'b1 : 1'b0;
 wire LDURH = (opcode == 11'b01111000010) ? 1'b1 : 1'b0;
 
+wire EX0 = (state == 4'b0001) ? 1'b1 : 1'b0;
+wire EX1 = (state == 4'b0010) ? 1'b1 : 1'b0;
+
+wire STORES =  STUR|STURB|STURH;
+wire LOADS = LDUR|LDURB|LDURH;
+
 assign FS = 5'b01000;
-wire [3:0] NS           = 4'b0000; //All single state instructions
+wire [3:0] NS;
+assign NS = (EX0&LOADS) ? 4'b0010 : 4'b0000; 
 wire [4:0] SA           = IR[9:5];
 wire [4:0] SB           = IR[4:0];
 wire [4:0] DA           = IR[4:0];
-wire w_reg              = LDUR|LDURB|LDURH;
+wire w_reg              = LOADS&EX1;
 wire C0                 = 1'b0;
 wire [1:0] mem_cs       = 2'b01;
 wire B_Sel              = 1'b1;
-wire mem_write_en       = STUR|STURB|STURH;
+wire mem_write_en       = STORES;
 wire IR_load            = 1'b0;
 wire status_load        = 1'b0;
 wire [1:0] size         = (STUR|LDUR)  ? 2'b11 :
 								  (STURH|LDURH)? 2'b01 : 2'b00;
 								  
 wire add_tri_sel        = 1'b0;
-wire [1:0] data_tri_sel = (LDUR|LDURB|LDURH) ? 2'b11 : 2'b01;
+wire [1:0] data_tri_sel = (LOADS) ? 2'b11 : 2'b01;
 wire PC_sel             = 1'b0;
 wire [1:0] PC_FS        = 2'b01;
 wire [2:0] k_mux        = 3'b001;
