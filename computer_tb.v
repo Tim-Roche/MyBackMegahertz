@@ -2,7 +2,7 @@ module computer_tb();
 reg clock = 1'b0;
 reg reset = 1'b0;
 
-parameter CUL = 36;
+parameter CUL = 35;
 
 computer labComp (clock,reset);
 
@@ -54,6 +54,7 @@ wire [4:0] FS;
 
 assign {FS, SA, SB, DA, w_reg, C0, mem_cs, B_Sel, mem_write_en, IR_load, status_load, size, add_tri_sel, data_tri_sel, PC_sel, PC_FS} = controlWord;
 
+
 wire [31:0] k = labComp.k;
 
 
@@ -65,9 +66,7 @@ wire [15:0] r4 = labComp.r4;
 wire [15:0] r5 = labComp.r5;
 wire [15:0] r6 = labComp.r6;
 wire [15:0] r7 = labComp.r7;
-
-
-
+wire mem_read = labComp.mem_read;
 wire SUB = labComp.cu.regUnit.SUB;
 wire ADDS = labComp.cu.regUnit.ADDS;
 wire SUBS = labComp.cu.regUnit.SUBS;

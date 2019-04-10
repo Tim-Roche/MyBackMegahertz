@@ -1,5 +1,5 @@
 module CU_imm (IR, state, status, NS, k_mux, controlWord, shamt);
-parameter CUL = 36;
+parameter CUL = 35;
 input [3:0] state;
 input [3:0] status; 
 input [31:0] IR;

@@ -1,6 +1,6 @@
 module CU_LS (IR, state, status, NS, k_mux, controlWord);
 //----DP_reg_sel
-parameter CUL = 36;
+parameter CUL = 35;
 input [3:0] state;
 input [3:0] status; 
 input [31:0] IR;
@@ -35,7 +35,7 @@ wire [1:0] size         = (STUR|LDUR)  ? 2'b11 :
 								  (STURH|LDURH)? 2'b01 : 2'b00;
 								  
 wire add_tri_sel        = 1'b0;
-wire [1:0] data_tri_sel = (LDUR|LDURB|LDURH) ? 2'b11 :2'b01;
+wire [1:0] data_tri_sel = (LDUR|LDURB|LDURH) ? 2'b11 : 2'b01;
 wire PC_sel             = 1'b0;
 wire [1:0] PC_FS        = 2'b01;
 wire [2:0] k_mux        = 3'b001;

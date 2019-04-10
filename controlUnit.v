@@ -1,5 +1,5 @@
 module controlUnit(clock, reset, IR, status, controlWord, k);
-parameter CUL = 36;
+parameter CUL = 35;
 input clock;
 input [3:0] status;
 input reset;
