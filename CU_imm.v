@@ -53,10 +53,11 @@ assign FS = (ADDI|ADDIS) ? 5'b01000 : //ADD
 wire mode_r = LSR|LSL;
 wire mode_i = ~mode_r&~MOV;
 				
-wire [4:0] SA           = IR[9:5];
+wire [4:0] SA           = (MOVZ) ? 5'd31   : 
+								  (MOVK) ? IR[4:0] : IR[9:5]; //If MOVZ get the zeros reg
 wire [4:0] SB           = IR[20:16];
 wire [4:0] DA           = IR[4:0];
-wire w_reg              = 1'b1;
+wire w_reg              = ~(MOVK&EX0);
 wire C0                 = SUBIS|SUBI;
 wire [1:0] mem_cs       = 2'b00;
 wire B_Sel              = 1'b1;

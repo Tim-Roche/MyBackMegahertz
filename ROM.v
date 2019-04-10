@@ -1,4 +1,4 @@
-module ROM(address, data, chip_select, output_enable); 
+ module ROM(address, data, chip_select, output_enable); 
 	input [31:0] address; 
 	input chip_select;
 	input output_enable;
@@ -12,8 +12,8 @@ module ROM(address, data, chip_select, output_enable);
 	begin
 		case(address)
 			32'h00000000: out = {10'b1001000100,12'hFF, 5'd31, 5'd0}; //ADDI X0 X31 #hAAA
-			32'h00000000: out = {9'b110100101, 2'b11, 16'hFFFF, 5'd0};
-			32'h00000004: out = {9'b111100101, 2'b01, 16'hAAAA, 5'd0};
+			32'h00000004: out = {9'b110100101, 2'b11, 16'hFFFF, 5'd0};
+			32'h00000008: out = {9'b111100101, 2'b01, 16'hAAAA, 5'd0};
 			//32'h00000000: out = {10'b1001000100,12'd2047 ,5'd31 ,5'd0}; //ADDI X0 X31 #hAAA
 			//32'h00000000: out = {10'b1101000100, 12'd1, 5'd31, 5'd0}; // SUBI X0 X31 #1
 			//32'h00000004: out = {11'b01111000000, 9'd0, 2'd0, 5'd31, 5'd0}; //STURH X0 X31 #0 
