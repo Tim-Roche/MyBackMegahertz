@@ -13,7 +13,7 @@ wire [1:0] trimOp0 = IR[25:24];
 wire V, C, N, Z;
 
 assign {V, C, N, Z} = status;
-
+//8'b01010100
 wire UNUSED7, BR, CB, BL, UNUSED3, bcond, UNUSED1, B;
 Decoder3to8 opToSignal ({UNUSED7, BR, CB, BL, UNUSED3, bcond, UNUSED1, B},trimOp1, 1'b1);
 wire CBZ  = CB &~trimOp0[1]&~trimOp0[0];

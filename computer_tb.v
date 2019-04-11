@@ -6,6 +6,7 @@ parameter CUL = 35;
 
 computer labComp (clock,reset);
 
+wire [2:0] trimOp1 = labComp.cu.bchUnit.trimOp1;
 wire [63:0] reg0_FULL = labComp.dp.regFile.R00;
 wire [1:0] maskSize = labComp.cu.maskSize;
 wire [63:0] k = labComp.cu.k;
@@ -111,7 +112,7 @@ initial begin
 	reset = 1'b1;
 	#10;
 	reset = 1'b0;
-	#360 $stop;
+	#3000 $stop;
 end
 
 
