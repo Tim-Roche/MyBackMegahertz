@@ -1,6 +1,7 @@
-module computer(clock,reset);
+module computer(clock,reset, r0);
 input clock;
-input reset; 
+input reset;
+output [15:0] r0; 
 
 parameter CUL = 35;
 
@@ -32,10 +33,11 @@ wire [63:0] k;
 wire [31:0] IR;
 wire [3:0] status;
 wire [15:0] r0, r1, r2, r3, r4, r5, r6, r7; 
+wire [31:0] pc_out;
 
 controlUnit cu (clock, reset, IR, status, controlWord, k);
 //           (clock, reset, controlWord, k, status, IR, data_bus, addressLine, r0, r1, r2, r3, r4, r5, r6, r7)
-datapath  dp (clock, reset, controlWord, k, status, IR, mem_data, mem_address, r0, r1, r2, r3, r4, r5, r6, r7);
+datapath  dp (clock, reset, controlWord, k, status, IR, mem_data, mem_address, r0, r1, r2, r3, r4, r5, r6, r7, pc_out);
 
 wire UNUSED_select;
 wire RAM_select;

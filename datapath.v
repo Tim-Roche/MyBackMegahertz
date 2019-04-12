@@ -1,4 +1,4 @@
-module datapath(clock, reset, controlWord, k, status, IR_out, data_bus, addressLine, r0, r1, r2, r3, r4, r5, r6, r7);
+module datapath(clock, reset, controlWord, k, status, IR_out, data_bus, addressLine, r0, r1, r2, r3, r4, r5, r6, r7, PC_out);
 input clock;
 input reset;
 input [35:0] controlWord;
@@ -6,7 +6,7 @@ input [63:0] k;
 
 inout wire [63:0] data_bus;
 output wire [31:0] addressLine;
-
+output [31:0] PC_out;
 output wire [31:0] IR_out;
 output [3:0] status;
 output [15:0] r0, r1, r2, r3, r4, r5, r6, r7; 

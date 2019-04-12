@@ -6,13 +6,13 @@ parameter CUL = 35;
 
 computer labComp (clock,reset);
 
+wire [3:0] status = labComp.status;
 wire [2:0] trimOp1 = labComp.cu.bchUnit.trimOp1;
 wire [63:0] reg0_FULL = labComp.dp.regFile.R00;
 wire [1:0] maskSize = labComp.cu.maskSize;
 wire [63:0] k = labComp.cu.k;
 wire [63:0] maskedOutput = labComp.cu.maskedOutput;
 wire [63:0] IW_k = labComp.cu.IW_k;
-
 
 wire [63:0] ALU_A = labComp.dp.regOut_A;
 wire [63:0] ALU_B = labComp.dp.muxOut;
