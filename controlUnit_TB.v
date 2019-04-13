@@ -1,9 +1,21 @@
 module controlUnit_TB();
-parameter CUL = 36;
+parameter CUL = 35;
 reg clock = 1'b0;
 reg reset = 1'b0;
 // 				       VCNZ
-reg [3:0] status = 4'b1000;
+wire [CUL:0] regCW = cu.reg_CW;
+wire [31:0] iK = cu.k_sel_iFh;
+wire [2:0] ksel = cu.k_sel;
+wire [4:0] rFS = cu.regUnit.FS;
+wire SUB = cu.regUnit.SUB;
+wire ADDS = cu.regUnit.ADDS;
+wire ADD = cu.regUnit.ADD;
+wire SUBS = cu.regUnit.SUBS;
+wire AND = cu.regUnit.AND;
+wire ORR = cu.regUnit.ORR;
+wire EOR = cu.regUnit.EOR;
+wire ANDS = cu.regUnit.ANDS;
+reg [3:0] status = 4'b1010;
 reg [31:0] IR;
 wire [CUL:0] controlWord;
 wire [31:0] k;
@@ -101,7 +113,8 @@ always begin
 end
 
 initial begin 
-	IR = {8'b01010100,19'd0, 5'b1100}; 
+	IR = 32'b10101010000000000000001111100011; // ORR X3, XZR, X0
+	#100 IR = 32'b10001011000000010000000000000000; // ADD X0, X0, X1//{8'b01010100,19'd0, 5'b1100}; 
 	#200 $stop;
 end
 

@@ -22,7 +22,7 @@ wire CBNZ = CB &~trimOp0[1]& trimOp0[0];
 wire EX0 = (state == 4'b0001) ? 1'b1 : 1'b0;
 wire EX1 = (state == 4'b0010) ? 1'b1 : 1'b0;
 
-assign NS = (BR|B)     ? 4'b0000 : 
+assign NS = (BR|B|bcond)     ? 4'b0000 : 
             (EX0&~BR)? 4'b0010 :
 				(EX1)    ? 4'b0000 : 4'b0000;
 
@@ -70,9 +70,9 @@ assign k_mux = (CB|bcond) ? 3'b011 :
 					(BR)       ? 3'b000 : 3'b000;
 
 wire [1:0] PC_FS;
-wire PC_HOLD = EX0&~BR&~B;
-wire PC_PLUS4 = (EX1&CBZ&~Z) | (EX1&CBNZ&Z) | (EX1&bcond&~bcondOut);
-wire PC_JUMP = (EX1&CBZ&Z) | (EX1&CBNZ&~Z) | (BL&EX1) | (EX1&bcond&bcondOut);
+wire PC_HOLD = EX0&~BR&~B&~bcond;
+wire PC_PLUS4 = (EX1&CBZ&~Z) | (EX1&CBNZ&Z) | (EX0&bcond&~bcondOut);
+wire PC_JUMP = (EX1&CBZ&Z) | (EX1&CBNZ&~Z) | (BL&EX1) | (EX0&bcond&bcondOut);
 wire PC_IN = BR | EX1&B;
 
 assign PC_FS = PC_HOLD  ? 2'b00 : 
