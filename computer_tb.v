@@ -4,7 +4,7 @@ reg reset = 1'b0;
 
 parameter CUL = 35;
 
-computer labComp (clock,reset);
+computer labComp (clock,reset, R0, R1, R2, R3, R4, R5, R6, R7);
 
 wire [3:0] status = labComp.status;
 wire [2:0] trimOp1 = labComp.cu.bchUnit.trimOp1;

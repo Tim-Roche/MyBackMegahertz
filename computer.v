@@ -1,7 +1,7 @@
-module computer(clock,reset, r0);
+module computer(clock,reset, r0, r1, r2, r3, r4, r5, r6, r7);
 input clock;
 input reset;
-output [15:0] r0; 
+output [15:0] r0, r1, r2, r3, r4, r5, r6, r7; 
 
 parameter CUL = 35;
 
