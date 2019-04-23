@@ -6,6 +6,16 @@ parameter CUL = 35;
 
 computer labComp (clock,reset, R0, R1, R2, R3, R4, R5, R6, R7);
 
+wire P_READ_IN = labComp.P_READ_IN;
+wire P_LOAD_OUT = labComp.P_LOAD_OUT;
+wire P_LOAD_DIR = labComp.P_LOAD_DIR;
+
+wire [63:0] storeOut = labComp.pl.storeOut;
+wire [63:0] data_bus = labComp.pl.data_bus;
+wire [63:0] out = labComp.pl.out; 
+wire [63:0] triEnables = labComp.pl.triEnables;
+wire [63:0] sendQ = labComp.pl.sendQ;
+
 wire [3:0] status = labComp.status;
 wire [2:0] trimOp1 = labComp.cu.bchUnit.trimOp1;
 wire [63:0] reg0_FULL = labComp.dp.regFile.R00;
@@ -36,10 +46,8 @@ wire branch_sel = labComp.cu.branch_sel;
 wire loadSr_sel = labComp.cu.loadSr_sel;
 wire DP_reg_sel = labComp.cu.DP_reg_sel;
 
-wire UNUSED_select = labComp.UNUSED_select;
 wire RAM_select = labComp.RAM_select;
 wire ROM_select = labComp.ROM_select;
-wire PERIF_select = labComp.PERIF_select;
 
 wire [63:0] data = labComp.mem_data;
 wire [31:0] address = labComp.mem_address;
