@@ -368,8 +368,6 @@ set_global_assignment -name VERILOG_FILE RegisterNbit.v
 set_global_assignment -name VERILOG_FILE computer.v
 set_global_assignment -name VERILOG_FILE ROM.v
 set_global_assignment -name VERILOG_FILE triState.v
-set_global_assignment -name VERILOG_FILE dataPath_core.v
-set_global_assignment -name VERILOG_FILE dataPath_core_TB.v
 set_global_assignment -name VERILOG_FILE PC_TB.v
 set_global_assignment -name VERILOG_FILE CU_reg.v
 set_global_assignment -name VERILOG_FILE CU_branch.v

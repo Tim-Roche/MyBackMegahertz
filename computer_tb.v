@@ -120,7 +120,7 @@ initial begin
 	reset = 1'b1;
 	#10;
 	reset = 1'b0;
-	#3000 $stop;
+	#50000 $stop;
 end
 
 
