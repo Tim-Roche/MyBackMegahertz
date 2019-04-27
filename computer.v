@@ -1,8 +1,8 @@
-module computer(clock,reset, r0, r1, r2, r3, r4, r5, r6, r7, P_OUT);
+module computer(clock,reset, r0, r1, r2, r3, r4, r5, r6, r7, IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12);
 input clock;
 input reset;
 output [15:0] r0, r1, r2, r3, r4, r5, r6, r7; 
-output [63:0] P_OUT;
+inout IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12;
 parameter CUL = 35;
 
 parameter GPIO_DIR_ADDRESS = 32'd254;
@@ -59,6 +59,6 @@ wire P_READ_IN = GPIO_RW&mem_read;
 wire P_LOAD_OUT = GPIO_RW&mem_write_en;
 wire P_LOAD_DIR = GPIO_DIR;
 
-peripheralLogic pl (mem_data, P_OUT, P_READ_IN, P_LOAD_OUT, P_LOAD_DIR, clock, reset);
+multiplePeripheralLogic MPL (data_bus, READ_IN, LOAD_OUT, LOAD_DIR, clock, reset, IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12);
 
 endmodule
