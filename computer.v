@@ -1,8 +1,8 @@
-module computer(clock,reset, r0, r1, r2, r3, r4, r5, r6, r7);
+module computer(clock,reset, r0, r1, r2, r3, r4, r5, r6, r7, P_OUT);
 input clock;
 input reset;
 output [15:0] r0, r1, r2, r3, r4, r5, r6, r7; 
-
+output [63:0] P_OUT;
 parameter CUL = 35;
 
 parameter GPIO_DIR_ADDRESS = 32'd254;
