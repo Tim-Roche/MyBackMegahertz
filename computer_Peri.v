@@ -11,16 +11,17 @@ wire [63:0] P_OUT;
 wire P_CLOCK = P_OUT[0];
 wire P_DATA = P_OUT[1];
 wire P_CS = P_OUT[2];
+assign P_OUT[12:3] = SW[9:0];
 
-
-assign LEDG[1:0] = {P_DATA, P_CLOCK};
+assign LEDG[2:0] = {P_CS, P_DATA, P_CLOCK};
+assign LEDG[7:4] = R4; 
 assign LEDG[9] = clock;
 
 
 
 assign GPIO1_D[0] = P_CLOCK;
 assign GPIO1_D[1] = P_DATA;
-assign GPIO1_D[2] = P_CS;
+assign GPIO1_D[3] = P_CS;
 
 clockDivider systemClock (CLOCK_50, clock);
 
