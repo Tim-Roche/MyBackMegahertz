@@ -1,8 +1,8 @@
-module computer(clock,reset, r0, r1, r2, r3, r4, r5, r6, r7, P_OUT);
+module computer(clock,reset, r0, r1, r2, r3, r4, r5, r6, r7, IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12);
 input clock;
 input reset;
+inout IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12;
 output [15:0] r0, r1, r2, r3, r4, r5, r6, r7; 
-output [63:0] P_OUT;
 parameter CUL = 35;
 
 parameter GPIO_DIR_ADDRESS = 32'd254;
@@ -43,22 +43,24 @@ controlUnit cu (clock, reset, IR, status, controlWord, k);
 //           (clock, reset, controlWord, k, status, IR, data_bus, addressLine, r0, r1, r2, r3, r4, r5, r6, r7)
 datapath  dp (clock, reset, controlWord, k, status, IR, mem_data, mem_address, r0, r1, r2, r3, r4, r5, r6, r7, pc_out);
 
+wire ROM_select = ~mem_cs[0];
+
 wire GPIO_DIR = (mem_address == GPIO_DIR_ADDRESS) ? 1'b1 : 1'b0;
 wire GPIO_RW  = (mem_address == GPIO_RW_ADDRESS)  ? 1'b1 : 1'b0;
-wire PERI_select = GPIO_DIR|GPIO_RW;
+wire SPECIAL_ADD = (GPIO_DIR|GPIO_RW);
 
-wire RAM_select = mem_cs[0]&~PERI_select;
-wire ROM_select = ~mem_cs[0]&~PERI_select;
+wire RAM_select = mem_cs[0]&~SPECIAL_ADD;
+wire PERI_select = mem_cs[0]&SPECIAL_ADD;
 
 RAM_64bit ram (clock, mem_address[11:0], mem_data, RAM_select, mem_write_en, mem_read, size);
 defparam ram.ADDR_WIDTH = 12;
 
 ROM  prgmMem (mem_address, mem_data, ROM_select, mem_read); 
 
-wire P_READ_IN = GPIO_RW&mem_read;
-wire P_LOAD_OUT = GPIO_RW&mem_write_en;
+wire P_READ_IN = GPIO_RW&mem_read&PERI_select;
+wire P_LOAD_OUT = GPIO_RW&mem_write_en&PERI_select;
 wire P_LOAD_DIR = GPIO_DIR;
 
-peripheralLogic pl (mem_data, P_OUT, P_READ_IN, P_LOAD_OUT, P_LOAD_DIR, clock, reset);
+multiplePeripheralLogic MPL (mem_data, PERI_select, P_READ_IN, P_LOAD_OUT, P_LOAD_DIR, clock, reset, IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12);
 
 endmodule

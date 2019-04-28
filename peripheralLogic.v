@@ -13,6 +13,7 @@ wire [N-1:0] data_bus;
 wire [N-1:0] out; 
 wire [N-1:0] triEnables;
 wire [N-1:0] sendQ;
+wire [N-1:0] toStore;
 
 triState storeTri (data_bus, storeOut, READ_IN);
 defparam storeTri.N = N;
