@@ -59,6 +59,6 @@ wire P_READ_IN = GPIO_RW&mem_read;
 wire P_LOAD_OUT = GPIO_RW&mem_write_en;
 wire P_LOAD_DIR = GPIO_DIR;
 
-multiplePeripheralLogic MPL (data_bus, READ_IN, LOAD_OUT, LOAD_DIR, clock, reset, IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12);
+multiplePeripheralLogic MPL (mem_data, PERI_select, P_READ_IN, P_LOAD_OUT, P_LOAD_DIR, clock, reset, IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12);
 
 endmodule
