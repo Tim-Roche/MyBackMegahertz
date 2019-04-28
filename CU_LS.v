@@ -44,7 +44,7 @@ wire [1:0] size         = (STUR|LDUR)  ? 2'b11 :
 wire add_tri_sel        = 1'b0;
 wire [1:0] data_tri_sel = (LOADS) ? 2'b11 : 2'b01;
 wire PC_sel             = 1'b0;
-wire [1:0] PC_FS        = 2'b01;
+wire [1:0] PC_FS        = (LOADS&EX0) ? 2'b00 : 2'b01;
 wire [2:0] k_mux        = 3'b001;
 
 wire [CUL:0] controlWord = {FS, SA, SB, DA, w_reg, C0, mem_cs, B_Sel, mem_write_en, IR_load, status_load, size, add_tri_sel, data_tri_sel, PC_sel, PC_FS};
