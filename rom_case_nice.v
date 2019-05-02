@@ -1,48 +1,10 @@
- module ROM(address, data, chip_select, output_enable); 
-	input [31:0] address; 
-	input chip_select;
-	input output_enable;
-	output [63:0] data;
-	
-	reg [63:0] out;
-	triState romOut (data, out, (output_enable&chip_select));
-	
-	
-	always@(address)
-	begin
-		case(address)
-		//--Peri Test
-		16'h0000:  out = 32'b10110010000000000001111111100000; // ORRI X0, XZR, 7 
-		16'h0004:  out = 32'b11111000000011111110001111100000; // STUR X0, [XZR, 254] //Setting DIR
-		16'h0008:  out = 32'b10110010000000000001001111100011; // ORRI X3, XZR, 4 //~CS set to HIGH
-		16'h000C:  out = 32'b11111000000011111111001111100011; // STUR X3, [XZR, 255] //Write clock to 0, Write ~CS HIGH
-		16'h0010:  out = 32'b11111000010011111111001111100000; // LDUR X0, [XZR, 255] //Read Switch Positions
-		16'h0014:  out = 32'b11010011011000000000010000000000; // LSL X0, X0, 1 //Lower 3 already clear from HW so shift 1 more
-		16'h0018:  out = 32'b11010010100111000000000111000010; // MOVZ X2, 57358 //(header bits)000000000(111)
-		16'h001C:  out = 32'b10101010000000100000000000000000; // ORR X0, X0, X2 //Place header and footer bits
-		16'h0020:  out = 32'b10010010000000000000000010000100; // ANDI X4, X4, 0
-		16'h0024:  out = 32'b11111000000011111111001111111111; // STUR X31, [XZR, 255] //write ~CS
-		16'h0028:  out = 32'b11110001000000000011110010011111; // SUBIS XZR, X4, 15 //loop starts here
-		16'h002C:  out = 32'b01010100000000000000000101001010; // B.GE 10
-		16'h0030:  out = 32'b10010010000000000000010000000011; // ANDI X3, X0, 1
-		16'h0034:  out = 32'b11010011011000000000010001100011; // LSL X3, X3, 1 //shift data into position
-		16'h0038:  out = 32'b11111000000011111111001111100011; // STUR X3, [XZR, 255] //data write
-		16'h003C:  out = 32'b10110010000000000000010001100011; // ORRI X3, X3, 1 //Clock set to 1
-		16'h0040:  out = 32'b11111000000011111111001111100011; // STUR X3, [XZR, 255] //clock write 
-		16'h0044:  out = 32'b11010011010000000000010000000000; // LSR X0, X0, 1
-		16'h0048:  out = 32'b10010001000000000000010010000100; // ADDI X4, X4, 1
-		16'h004C:  out = 32'b11010010000000000000010001100011; // EORI X3, X3, 1 //Clock set to 0 
-		16'h0050:  out = 32'b11111000000011111111001111100011; // STUR X3, [XZR, 255] //clock write 
-		16'h0054:  out = 32'b00010111111111111111111111110100; // B -12 //top of loop
-		16'h0058:  out = 32'b10010010000000000001001111100011; // ANDI X3, XZR, 4 //Setting CS HIGH
-		16'h005C:  out = 32'b11111000000011111111001111100011; // STUR X3, [XZR, 255] //Write HIGH ~CS
-		16'h0060:  out = 32'b10110010000000000000011111100011; // ORRI X3, X31, 1 //Clock set to 1
-		16'h0064:  out = 32'b11111000000011111111001111100011; // STUR X3, [XZR, 255] //Write  Clock
-		16'h0068:  out = 32'b11010110000000000000001111100000; // BR XZR
-		default: out=32'hD60003E0; //BR XZR
-		
-		/*//-------
-		// Overclock (Nice!) Test
+// auto generated from http://users.rowan.edu/~haskellt8/assembler/
+module rom_case(out, address);
+	output reg [31:0] out;
+	input  [15:0] address; // address- 16 deep memory  
+	always @(address) begin
+		case (address)
+			// Overclock (Nice!) Test
 			// use X8 as the base address of RAM (default is 0x00000000)
 			// For example if RAM is at 0x80000000 then change the following two instructions to:
 			// MOVZ X8, 8 (put 8 in X8)
@@ -112,18 +74,7 @@
 			16'h00E8:  out = 32'b11010001000000000000010011100111; // SUBI X7, X7, 1
 			16'h00EC:  out = 32'b10110101111111111111111111000111; // CBNZ X7, -2
 			16'h00D0:  out = 32'b11010110000000000000000101100000; // BR X11
-			/*32'h0000:  out = 32'b10010001000000000000011111100000; // ADDI X0, XZR, 1
-			32'h0004:  out = 32'b10010001000000000000011111100001; // ADDI X1, XZR, 1
-			32'h0008:  out = 32'b11110001000000000011110000000100; // SUBIS X4, X0, 15
-			32'h000C:  out = {8'b01010100, 19'd4, 5'b01010}; //B.GE 4
-			32'h0010:  out = 32'b10101010000000000000001111100011; // ORR X3, XZR, X0
-			32'h0014:  out = 32'b10001011000000010000000000000000; // ADD X0, X0, X1
-			32'h0018:  out = 32'b10101010000000110000001111100001; // ORR X1, XZR, X3
-			16'h001C:  out = 32'b00010111111111111111111111111010; // B -6
-			32'h0020:  out = 32'b11010110000000000000001111100000; // BR XZR*/
-			//default: out=32'b11010110000000000000000101100000; //BR X11
+			default: out=32'b11010110000000000000000101100000; //BR X11
 		endcase
 	end
 endmodule
-			
-			

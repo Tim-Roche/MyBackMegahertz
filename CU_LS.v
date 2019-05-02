@@ -40,7 +40,7 @@ wire IR_load            = 1'b0;
 wire status_load        = 1'b0;
 wire [1:0] size         = (STUR|LDUR)  ? 2'b11 :
 								  (STURH|LDURH)? 2'b01 : 2'b00;
-								  
+				  
 wire add_tri_sel        = 1'b0;
 wire [1:0] data_tri_sel = (LOADS) ? 2'b11 : 2'b01;
 wire PC_sel             = 1'b0;

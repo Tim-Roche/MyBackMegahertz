@@ -4,7 +4,8 @@ reg reset = 1'b0;
 
 parameter CUL = 35;
 
-
+wire [63:0] reg1_FULL = labComp.dp.regFile.R01;
+/*
 wire IO1_STOREOUT = labComp.MPL.P_1.storeOut;
 wire IO1_DATA = labComp.MPL.P_1.data_bus;
 wire IO1_TRIE = labComp.MPL.P_1.triEnable;
@@ -19,7 +20,7 @@ wire LDUR = labComp.cu.lsUnit.LDUR;
 wire P_mem_read = labComp.P_READ_IN;
 wire P_mem_write = labComp.P_LOAD_OUT;
 wire P_LOAD_DIR = labComp.P_LOAD_DIR;
-wire [12:0] periOut = labComp.MPL.periOut;
+wire [12:0] periOut = labComp.MPL.periOut;*/
 wire [63:0] data = labComp.mem_data;
 wire [31:0] address = labComp.mem_address;
 

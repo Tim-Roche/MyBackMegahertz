@@ -21,9 +21,14 @@ assign HEX7_DP = 1'b0;
 
 assign led[5:0] = 6'b101010;
 
-clockDivider systemClock (CLOCK_50, clock);
+wire IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12; //unused 
 
-computer(clock, reset, R0, R1, R2, R3, R4, R5, R6, R7);
+wire locked;
+//clockDivider systemClock (CLOCK_50, clock);
+clock45 clk (1'b0,CLOCK_50,clock,locked);
+
+ 
+computer comp (clock,reset, R0, R1, R2, R3, R4, R5, R6, R7, IO_0, IO_1, IO_2, IO_3, IO_4, IO_5, IO_6, IO_7, IO_8, IO_9, IO_10, IO_11, IO_12);
 
 GPIO_Board EXboard(
 	CLOCK_50,

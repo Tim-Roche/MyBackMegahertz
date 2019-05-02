@@ -1,26 +1,44 @@
 module controlUnit_TB();
 parameter CUL = 35;
+wire [CUL:0] controlWord;
 reg clock = 1'b0;
 reg reset = 1'b0;
+wire [3:0] NS = cu.lsUnit.NS;
+wire [4:0] FS;
+wire [4:0] SA;
+wire [4:0] SB;
+wire [4:0] DA;
+wire w_reg;
+wire C0;
+wire [1:0] mem_cs;
+wire B_Sel;
+wire mem_write_en;
+wire IR_load;
+wire status_load ;
+wire [1:0] size;
+wire add_tri_sel;
+wire [1:0] data_tri_sel;
+wire PC_sel;
+wire [1:0] PC_FS;
+wire [2:0] k_mux;
 // 				       VCNZ
+
 wire [CUL:0] regCW = cu.reg_CW;
 wire [31:0] iK = cu.k_sel_iFh;
 wire [2:0] ksel = cu.k_sel;
 wire [4:0] rFS = cu.regUnit.FS;
-wire SUB = cu.regUnit.SUB;
+/*wire SUB = cu.regUnit.SUB;
 wire ADDS = cu.regUnit.ADDS;
 wire ADD = cu.regUnit.ADD;
 wire SUBS = cu.regUnit.SUBS;
 wire AND = cu.regUnit.AND;
 wire ORR = cu.regUnit.ORR;
 wire EOR = cu.regUnit.EOR;
-wire ANDS = cu.regUnit.ANDS;
+wire ANDS = cu.regUnit.ANDS;*/
 reg [3:0] status = 4'b1010;
 reg [31:0] IR;
-wire [CUL:0] controlWord;
 wire [31:0] k;
 wire [3:0] state = cu.state;
-wire [3:0] NS = cu.NS;
 //wire [CUL:0] regCW = cu.reg_CW;
 //wire [31:0] iK = cu.k_sel_iFh;
 //wire [2:0] ksel = cu.k_sel;
@@ -80,13 +98,12 @@ wire LSL   = cu.immUnit.LSL;
 wire EX0 = cu.immUnit.EX0;
 wire EX1 = cu.immUnit.EX1;
 
-
+*/
 wire STUR = cu.lsUnit.STUR;
 wire LDUR = cu.lsUnit.LDUR;
 wire STURB = cu.lsUnit.STURB;
 wire LDURB = cu.lsUnit.LDURB;
-wire [2:0] k_mux = cu.immUnit.k_mux;
-*/
+
 
 wire PC_HOLD = cu.bchUnit.PC_HOLD;
 wire PC_PLUS4 = cu.bchUnit.PC_PLUS4;
@@ -98,7 +115,7 @@ wire bcond = cu.bchUnit.bcond;
 wire bcondOut = cu.bchUnit.bcondOut;
 wire [3:0] s_B = cu.bchUnit.SB[3:0];
 controlUnit cu (clock, reset, IR, status, controlWord, k);
-
+assign {FS, SA, SB, DA, w_reg, C0, mem_cs, B_Sel, mem_write_en, IR_load, status_load, size, add_tri_sel, data_tri_sel, PC_sel, PC_FS} = controlWord;
 wire [CUL:0] iCW = cu.iFetch_CW;
 wire [3:0] iNS  = cu.NS_iFh;
 
@@ -113,8 +130,7 @@ always begin
 end
 
 initial begin 
-	IR = 32'b10101010000000000000001111100011; // ORR X3, XZR, X0
-	#100 IR = 32'b10001011000000010000000000000000; // ADD X0, X0, X1//{8'b01010100,19'd0, 5'b1100}; 
+	IR = 32'b11111000000000000001000000100000; // STUR X0, [X1, 1]
 	#200 $stop;
 end
 

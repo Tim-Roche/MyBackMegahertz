@@ -56,6 +56,7 @@ RAM_64bit ram (clock, mem_address[11:0], mem_data, RAM_select, mem_write_en, mem
 defparam ram.ADDR_WIDTH = 12;
 
 ROM  prgmMem (mem_address, mem_data, ROM_select, mem_read); 
+//ROM_optionals prgmMem (mem_address, mem_data, ROM_select, mem_read); 
 
 wire P_READ_IN = GPIO_RW&mem_read&PERI_select;
 wire P_LOAD_OUT = GPIO_RW&mem_write_en&PERI_select;
